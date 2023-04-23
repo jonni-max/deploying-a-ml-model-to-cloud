@@ -1,0 +1,29 @@
+name: s3Upload
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Upload to Amazon S3
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ASIA2ORLIS62GZV7JFOE
+        aws-secret-access-key: jrZeZEnWiKTkfwBwzuXznVO9h0ZTI6r0xLqQg77T
+        aws-region: us-east-2
+        role-to-assume: arn:aws:iam::718424020916:user/jp
+        role-external-id: jp
+        role-duration-seconds: 1200
+        role-session-name: jpSession
+    - name: Copy files to the test website with the AWS CLI
+      run: |
+        aws s3 sync ./test/ s3://udacity-mldevops-project-3
