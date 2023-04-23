@@ -21,4 +21,4 @@ jobs:
     - name: Run tests and lint the code with flake8
       run: |
         pytest ./test
-        flake8 $(git ls-files *.py)
+        flake8 $(git ls-files '*.py')
