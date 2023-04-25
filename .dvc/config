@@ -1,0 +1,4 @@
+[core]
+    remote = jps3
+['remote "jps3"']
+    url = s3://udacity-mldevops-project-3
