@@ -105,26 +105,8 @@ def model_performance_slices(model, X, y_label, feature_no):
         
         # y_label and preds should be binarized
         prec, rec, fbet = compute_model_metrics(y_label[group_idx], preds[group_idx])
-                
-        print(f"Slice {group} has precision: {prec}, recall: {rec}, fbeta: {fbet}")
-    
-    
-#     # Take slices. Use pandas functionality
-#     X_df = pd.DataFrame(X)
-#     
-#     x_slices = X_df.groupby[feature].groups
-#     
-#     print(f"Model performance for feature {feature}:")
-#     
-#     for slice_name in x_slices.keys():
-#         
-#         slice_idx = X_df.iloc[x_sclices[slice_name]].values
-#         
-#         # y_label and preds should be binarized
-#         prec, rec, fbet = compute_model_metrics(y_label[slice_idx], preds[slice_idx])
-#                 
-#         print(f"Slice {slice_name} has precision: {prec}, recall: {rec}, fbeta: {fbet}")
         
+        print(f"Slice {group} has precision: {prec}, recall: {rec}, fbeta: {fbet}")
 
 
 if __name__ == "__main__":
