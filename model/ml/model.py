@@ -1,7 +1,6 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import RandomForestClassifier
 
-
 # Optional: implement hyperparameter tuning.
 def train_model(X_train, y_train):
     """
@@ -48,22 +47,56 @@ def compute_model_metrics(y, preds):
     return precision, recall, fbeta
 
 
-def inference(model, X):
-    """ Run model inferences and return the predictions.
+def inference(model, encoder, lb, X):
+    """ 
+    Run model inferences and return the predictions using given model, 
+    encoder, label binarizer and data. Input and output are NOT encoded. 
 
     Inputs
     ------
     model : sklearn.ensemble.RandomForestClassifier
         Trained machine learning model.
+    encoder : sklearn.preprocessing._encoders.OneHotEncoder
+        One hot encoder
+    lb : sklearn.preprocessing._label.LabelBinarizer
+        Label binarizer
     X : np.array
-        Data used for prediction.
+        Data (not encoded) used for prediction.
+        
     Returns
     -------
     preds : np.array
-        Predictions from the model.
+        Predictions (not encoded) from the model.
+        
     """
+        
+    X_enc = encoder.transform(X) # encode input
     
-    preds = model.predict(X)
+    preds_enc = model.predict(X_enc) # infer encoded output
+    
+    preds = lb.inverse_transform(preds_enc) # decode output
     
     return preds
+
+
+def inference_encoded(model, X_enc):
+    """
+    Run model inference on ENCODED input data.
+    
+    Input
+    -----
+    X_enc : np.array
+        Encoded input data
+    
+    Returns
+    -------
+    pred_bin : np.array
+        Predictions from the model, binarized
+        
+    """
+    
+    preds_bin = model.predict(X_enc)
+    
+    return preds_bin
+    
     

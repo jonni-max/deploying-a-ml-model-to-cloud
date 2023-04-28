@@ -13,88 +13,87 @@ import pandas as pd
 
 # Add the necessary imports for the starter code.
 from .ml.data import process_data
-from .ml.model import train_model, inference
+from .ml.model import train_model, inference, inference_encoded
 from .ml.model import compute_model_metrics
 
+g_fn_model = 'data/rf_model.joblib'
+g_fn_encoder= 'data/encoder.joblib'
+g_fn_label_binarizer = 'data/label_binarizer.joblib'
 
-def run_ml_pipeline(data):
+g_cat_features = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
+]
+
+def model_training(training_data):
     """
-    Runs the components of the ml pipeline: train-test splitting, data processing,
-    and training.
+    Runs the training component of the ml pipeline.
     
     Inputs
     ------
-    data : pandas.DataFrame
+    training_data : pandas.DataFrame
         Input data for training and testing   
     
     Returns
     -------
     model : np.array
         Model trained with the input data
-    
+    encoder : sklearn.preprocessing._encoders.OneHotEncoder
+        One hot encoder
+    label_binarizer : sklearn.preprocessing._label.LabelBinarizer
+        Label binarizer
     """
     
-    # Optional enhancement, use K-fold cross validation instead of a train-test split.
-    train, test = train_test_split(data, test_size=0.20)
-    
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-    ]
-    X_train, y_train, enc, lbin = process_data(
-        train, categorical_features=cat_features, label="salary", training=True
-    )
-    
-    # Process the test data with the process_data function.    
-    X_test, y_test, _, _ = process_data(
-        test, categorical_features=cat_features, label="salary", training=False,
-        encoder=enc, lb=lbin
+
+    X_train, y_train, encoder, label_binarizer = process_data(
+        training_data, categorical_features=g_cat_features, label="salary", training=True
     )
     
     # Train and save a model.
     model = train_model(X_train, y_train)
     
-    # Build processed feature list
-    features = np.concatenate([data.columns[~data.columns.isin(cat_features)].values, cat_features])
-    
-    # Evaluate model performance
-    model_performance_slices(model, X_test, y_test, np.where(features=='sex')[0][0])
-    
-    return model
+    return model, encoder, label_binarizer
 
 
-def model_performance_slices(model, X, y_label, feature_no):
+def model_testing_slices(model, encoder, label_binarizer, test_data, feature_no):
     """
-    Evaluate model performance on slices of one feature of the data.
+    Evaluate model performance on slices of one feature of the test data.
     
     Input
     -----
     model : sklearn.ensemble.RandomForestClassifier
-        Model to be evaluated    
-    feature_no : int
-        The index of the column of the feature based on which slices are taken. Only 
-        categorical features allowed.
-    y_label : np.array, 1d
-        Known labels, binarized
-    X : np.array, 1d
-        Model input data
+        Model to be evaluated
+    encoder : sklearn.preprocessing._encoders.OneHotEncoder
+        One hot encoder
+    label_binarizer : sklearn.preprocessing._label.LabelBinarizer
+        Label binarizer
+    test_data : pandas.DataFrame
+        Test data with column names
+    feature_name : str
+        Name of the feature based on which slices are taken. Only categorical features allowed.
     
     Returns
     ------
     
     """
 
-    # Compute model predictions on the whole dataset
-    preds = inference(model, X)
+    # Process the test data with the process_data function.    
+    X_test, y_test, _, _ = process_data(
+        test_data, categorical_features=g_cat_features, label="salary", training=False,
+        encoder=encoder, lb=label_binarizer
+    )
+
+    # Compute model predictions on the whole test data
+    preds = inference_encoded(model, X_test)
     
     # Build groups for slicing
-    feature_column = X[:,feature_no]
+    feature_column = X_test[:,feature_no]
     groups = np.unique(feature_column)
     
     print(f"Model performance for feature no. {feature_no}:")
@@ -103,22 +102,95 @@ def model_performance_slices(model, X, y_label, feature_no):
         
         group_idx = np.where(feature_column == group)[0]
         
-        # y_label and preds should be binarized
-        prec, rec, fbet = compute_model_metrics(y_label[group_idx], preds[group_idx])
+        # y_test and preds should be binarized
+        prec, rec, fbet = compute_model_metrics(y_test[group_idx], preds[group_idx])
         
         print(f"Slice {group} has precision: {prec}, recall: {rec}, fbeta: {fbet}")
 
 
-if __name__ == "__main__":
+def model_prediction(input_data):
+    """
+    Run an inference based on the trained model file and the given input data.
     
+    Input
+    -----
+    X : pandas.DataFrame
+    
+    Returns
+    -------
+    predictions : np.array
+    
+    """
+    
+    # Load model and encoders
+    model = load(g_fn_model)
+    enc = load(g_fn_encoder)
+    lb = load(g_fn_label_binarizer)
+    
+    # Make sure data has the same no of features as training data w/o the label column
+    assert input_data.shape[1] == 14
+    
+    X_enc, _, _, _ = process_data(
+        input_data, categorical_features=g_cat_features, label=None, training=False,
+        encoder=enc, lb=lb
+    )
+    
+    predictions_bin = inference_encoded(model, X_enc)
+    
+    predictions = lb.inverse_transform(predictions_bin)
+    
+    return predictions
+
+
+def run_pipeline():
+    """
+    Run the ml pipeline: data loading, preparation, training, testing, storing
+    
+    Inputs
+    ------
+    data : pandas.DataFrame
+        Input data for training and testing   
+    
+    Returns
+    -------
+
+    """
+
     # Load data
     census_data = pd.read_csv('./data/census_clean.csv')
     
-    # Run pipeline
-    model = run_ml_pipeline(census_data)
+    # Prepare data
+    train, test = train_test_split(census_data, test_size=0.20)
+    # Optional enhancement, use K-fold cross validation instead of a train-test split.
+
+    # Train model
+    model, enc, lb = model_training(train)
+
+    # Evaluate model performance on selected feature 
+    # Build processed feature list
+    features = np.concatenate(
+        [census_data.columns[~census_data.columns.isin(g_cat_features)].values, g_cat_features])
+    model_testing_slices(model, enc, lb, test, np.where(features=='sex')[0][0])
+
+    # Save to file
+    dump(model, g_fn_model)
+    dump(enc, g_fn_encoder)
+    dump(lb, g_fn_label_binarizer)    
     
-    # Save model
-    dump(model, './model/rf_model.joblib')
+    
+
+if __name__ == "__main__":
+    
+    run_pipeline()
+    
+#     # Load data
+#     census_data = pd.read_csv('./data/census_clean.csv')
+#     
+#     # Run pipeline
+#     model = run_ml_pipeline(census_data)
+#     
+#     # Save model
+#     dump(model, './model/rf_model.joblib')
     
     
     

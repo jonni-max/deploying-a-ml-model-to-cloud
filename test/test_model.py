@@ -1,5 +1,5 @@
 """
-model_tests.py
+test_model.py
 
 Test functions related to the model training and testing pipeline.
 """
@@ -43,13 +43,13 @@ def test_compute_model_metrics():
     assert isinstance(fbeta, float)
     
 
-def test_inference():
+def test_inference_encoded():
     
     model = train_model(pytest.x_data, pytest.y_data)
     
     X = np.array([[1,1,1], [0,0,0], [1,1,1]])
     
-    prediction = inference(model, X)
+    prediction = inference_encoded(model, X)
     
     assert prediction.shape == pytest.y_data.shape
     
