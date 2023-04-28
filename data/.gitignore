@@ -1,3 +1,6 @@
 
 /census.csv
 /census_clean.csv
+/encoder.joblib
+/rf_model.joblib
+/label_binarizer.joblib
