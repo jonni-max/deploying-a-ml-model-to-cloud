@@ -1,11 +1,11 @@
-name: s3-upload
+name: dvc-pull-from-aws
 
 on: 
   workflow_dispatch:
 
 jobs:
   deploy:
-    name: DVC Pull from AWS S3
+    name: DVC Pull from AWS S3 bucket
     runs-on: ubuntu-latest
     # These permissions are needed to interact with GitHub's OIDC Token endpoint.
     permissions:
@@ -22,7 +22,7 @@ jobs:
         aws-session-token: FwoGZXIvYXdzEJv//////////wEaDB9q1L7+3ia+lVzq5iLVAUjhDKLruuaQ2kSTKBkBcYnRN/WMBjKt1hbnsAEcgRw73Os4VNQIF+eo+yZuSwXawkwDTUqsRh4LzQRRBJiV1D83ItnUMCJfnp/nFwTbU3F3S2NsBL03sttyHb28g+h3zn2brs7BAcfRozQ+LKCL5qAd0ne4YH4lBva8yM49/DbA32tGEk9NEmbr8xbM5vGu/aConbrlVmFH/QER/rWgTMseuClf5taAYXlsBlg8KNFQZjzDYCxl/sCOAJlLyIS2V+jWBUlj+gM3vaCaFWwil63r8iQ0ZCjx1bqiBjItAuX6Bt9QLpXC6XWk4Y+EmE2KPAvQnFDndF3ERIRnK/mLSH1wDP3x2pDuZHYQ
         aws-region: us-east-2
     - uses: iterative/setup-dvc@v1
-    - name: Show files tracked by DVC on the AWS S3 bucket
+    - name: Pull from S3
       run: |
         dvc list-url s3://udacity-mldevops-project-3/
         dvc pull
