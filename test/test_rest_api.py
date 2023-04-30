@@ -30,8 +30,8 @@ def test_api_get():
 def test_api_post_gt50k():
     
     # Take a record from the census data with salary greater than 50k
-    census_data = pd.read_csv('data/census_clean.csv')
-    input_data = census_data[census_data.salary=='<=50K'].drop(['salary'], axis=1).iloc[33, :]
+    census_data = pd.read_csv('data/census_test.csv')
+    input_data = census_data[census_data.salary=='<=50K'].drop(['salary'], axis=1).iloc[1, :]
     
     print(f"\nPOST input is:\n{input_data.to_json()}")
     
@@ -46,8 +46,8 @@ def test_api_post_gt50k():
 def test_api_post_lt50k():
     
     # Take a record from the census data with salary less than 50k
-    census_data = pd.read_csv('data/census_clean.csv')
-    input_data = census_data[census_data.salary=='>50K'].drop(['salary'], axis=1).iloc[33, :]
+    census_data = pd.read_csv('data/census_test.csv')
+    input_data = census_data[census_data.salary=='>50K'].drop(['salary'], axis=1).iloc[1, :]
     
     print(f"\nPOST input is:\n{input_data.to_json()}")
     
