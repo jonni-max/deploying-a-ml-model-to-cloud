@@ -25,7 +25,6 @@ jobs:
       run: |
         dvc pull
         # dvc list-url s3://udacity-mldevops-project-3/
-        - uses: actions/upload-artifact@v3
     - name: Save job artifacts
       uses: actions/upload-artifact@master
       with:
