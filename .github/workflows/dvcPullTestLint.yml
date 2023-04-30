@@ -25,6 +25,12 @@ jobs:
       run: |
         dvc pull
         # dvc list-url s3://udacity-mldevops-project-3/
+        - uses: actions/upload-artifact@v3
+    - name: Save job artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: model-data
+        path: data/
 
   test-lint:
     needs: dvc-pull
@@ -43,6 +49,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest flake8
         pip install -r requirements.txt
+    - name: Download job artifacts
+      uses: actions/download-artifact@master
+      with:
+        name: model-data
+        path: data/ # or path/to/artifact
     - name: Run unit tests
       run: |
         pytest ./test
