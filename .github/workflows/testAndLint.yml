@@ -1,4 +1,4 @@
-name: TestAndLint
+name: test-and-lint
 
 on: [push]
 
@@ -18,9 +18,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pytest flake8
-#    - name: Run tests
-#      run: |
-#        pytest ./test
+    - name: Run unit tests
+      run: |
+        pytest ./test
     - name: Lint the code with flake8
       run: |
         flake8 $(git ls-files '*.py')

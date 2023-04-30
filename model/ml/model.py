@@ -2,6 +2,8 @@ from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.ensemble import RandomForestClassifier
 
 # Optional: implement hyperparameter tuning.
+
+
 def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
@@ -18,16 +20,16 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
 
-    model = RandomForestClassifier() # default settings only
-    
+    model = RandomForestClassifier()  # default settings only
+
     model.fit(X_train, y_train)
-    
+
     return model
 
 
 def compute_model_metrics(y, preds):
     """
-    Validates the trained machine learning model using precision, recall, and F1.
+    Validates the trained machine learning model using precision, recall, F1.
 
     Inputs
     ------
@@ -48,9 +50,9 @@ def compute_model_metrics(y, preds):
 
 
 def inference(model, encoder, lb, X):
-    """ 
-    Run model inferences and return the predictions using given model, 
-    encoder, label binarizer and data. Input and output are NOT encoded. 
+    """
+    Run model inferences and return the predictions using given model,
+    encoder, label binarizer and data. Input and output are NOT encoded.
 
     Inputs
     ------
@@ -62,41 +64,39 @@ def inference(model, encoder, lb, X):
         Label binarizer
     X : np.array
         Data (not encoded) used for prediction.
-        
+
     Returns
     -------
     preds : np.array
         Predictions (not encoded) from the model.
-        
+
     """
-        
-    X_enc = encoder.transform(X) # encode input
-    
-    preds_enc = model.predict(X_enc) # infer encoded output
-    
-    preds = lb.inverse_transform(preds_enc) # decode output
-    
+
+    X_enc = encoder.transform(X)  # encode input
+
+    preds_enc = model.predict(X_enc)  # infer encoded output
+
+    preds = lb.inverse_transform(preds_enc)  # decode output
+
     return preds
 
 
 def inference_encoded(model, X_enc):
     """
     Run model inference on ENCODED input data.
-    
+
     Input
     -----
     X_enc : np.array
         Encoded input data
-    
+
     Returns
     -------
     pred_bin : np.array
         Predictions from the model, binarized
-        
+
     """
-    
+
     preds_bin = model.predict(X_enc)
-    
+
     return preds_bin
-    
-    
