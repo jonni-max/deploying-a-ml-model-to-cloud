@@ -25,4 +25,4 @@ jobs:
     - name: Show files tracked by DVC on the AWS S3 bucket
       run: |
         dvc list-url s3://udacity-mldevops-project-3/
-        aws s3 ls --recursive s3://udacity-mldevops-project-3/
+        dvc pull
