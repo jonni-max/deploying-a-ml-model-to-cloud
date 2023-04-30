@@ -21,6 +21,6 @@ jobs:
         aws-secret-access-key: GtKBkgg/VyDTykVxYGSRiXFY7ZbogYZUeonNp//r
         aws-session-token: FwoGZXIvYXdzEJv//////////wEaDB9q1L7+3ia+lVzq5iLVAUjhDKLruuaQ2kSTKBkBcYnRN/WMBjKt1hbnsAEcgRw73Os4VNQIF+eo+yZuSwXawkwDTUqsRh4LzQRRBJiV1D83ItnUMCJfnp/nFwTbU3F3S2NsBL03sttyHb28g+h3zn2brs7BAcfRozQ+LKCL5qAd0ne4YH4lBva8yM49/DbA32tGEk9NEmbr8xbM5vGu/aConbrlVmFH/QER/rWgTMseuClf5taAYXlsBlg8KNFQZjzDYCxl/sCOAJlLyIS2V+jWBUlj+gM3vaCaFWwil63r8iQ0ZCjx1bqiBjItAuX6Bt9QLpXC6XWk4Y+EmE2KPAvQnFDndF3ERIRnK/mLSH1wDP3x2pDuZHYQ
         aws-region: us-east-2
-    - name: Copy files to the test website with the AWS CLI
+    - name: Show files on the AWS S3 bucket
       run: |
-        aws s3 ls --recursive s3://udacity-mldevops-project-3/ data/
+        aws s3 ls --recursive s3://udacity-mldevops-project-3/
