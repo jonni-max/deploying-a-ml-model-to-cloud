@@ -23,4 +23,4 @@ jobs:
         aws-region: us-east-2
     - name: Copy files to the test website with the AWS CLI
       run: |
-        aws s3 cp s3://udacity-mldevops-project-3/12/12/616387ced8db7ae66cf8f123ffc48d data/
+        aws s3 ls --recursive s3://udacity-mldevops-project-3/ data/
