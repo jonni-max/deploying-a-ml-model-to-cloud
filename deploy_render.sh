@@ -5,7 +5,9 @@
 
 pip install -r requirements_render.txt &&
 source ./aws_cred_export &&
-#dvc pull -vv -r jps3 &&
+mkdir -p './tmp/dvc' &&
+dvc config core.site_cache_dir './tmp/dvc' && 
+dvc pull -vv -r jps3 
 dvc config -vv --list
 
 echo "DVC pulled data:"
