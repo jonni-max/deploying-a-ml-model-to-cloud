@@ -100,6 +100,8 @@ def model_testing_slices(
     # Build groups for slicing
     feature_column = X_test[:, feature_no]
     groups = np.unique(feature_column)
+    
+    f = open('data/slice_output.txt', 'w')
 
     print(f"Model performance for feature no. {feature_no}:")
 
@@ -111,9 +113,12 @@ def model_testing_slices(
         prec, rec, fbet = compute_model_metrics(
             y_test[group_idx], preds[group_idx])
 
-        print(
-            f"Slice {group} has precision: {prec}, recall: {rec}, " +
-            "fbeta: {fbet}")
+        result_text = f"Slice {group} has precision: {prec}, recall: {rec}, "\
+            f"fbeta: {fbet}"
+        
+        # Print result to stdout and file
+        print(result_text)
+        print(result_text, file=f)
 
 
 def model_prediction(input_data):
