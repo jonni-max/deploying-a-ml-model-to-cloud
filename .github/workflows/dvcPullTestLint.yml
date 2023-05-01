@@ -16,9 +16,9 @@ jobs:
     - name: Configure AWS credentials from Test account
       uses: aws-actions/configure-aws-credentials@v2
       with:
-        aws-access-key-id: ASIA2ORLIS62AINQUIIZ
-        aws-secret-access-key: GtKBkgg/VyDTykVxYGSRiXFY7ZbogYZUeonNp//r
-        aws-session-token: FwoGZXIvYXdzEJv//////////wEaDB9q1L7+3ia+lVzq5iLVAUjhDKLruuaQ2kSTKBkBcYnRN/WMBjKt1hbnsAEcgRw73Os4VNQIF+eo+yZuSwXawkwDTUqsRh4LzQRRBJiV1D83ItnUMCJfnp/nFwTbU3F3S2NsBL03sttyHb28g+h3zn2brs7BAcfRozQ+LKCL5qAd0ne4YH4lBva8yM49/DbA32tGEk9NEmbr8xbM5vGu/aConbrlVmFH/QER/rWgTMseuClf5taAYXlsBlg8KNFQZjzDYCxl/sCOAJlLyIS2V+jWBUlj+gM3vaCaFWwil63r8iQ0ZCjx1bqiBjItAuX6Bt9QLpXC6XWk4Y+EmE2KPAvQnFDndF3ERIRnK/mLSH1wDP3x2pDuZHYQ
+        aws-access-key-id: ASIA2ORLIS62HQZBA4U6
+        aws-secret-access-key: JYn4FQ+vuCOMwQSYDo49VhTvccBwx2QiJ53C58xU
+        aws-session-token: FwoGZXIvYXdzEKr//////////wEaDDdE9DBbwNpNGRfTvyLVAbSdSUkSjVXMkBjJA4Sk41NEzGOxistRUVjdialYBZA/Cu0meFW65TogJrouLu2wj3C0GQfY59ZqRJ9K0BueffQoyFAnk5HO8AEdfZePijiXSxkKWafPiMwLhqiBLBgMyRwvNP40+pBX8q9oRaoQiccxXTyp+REaqEZf7ToACSQIAWfzbCy47WALwrPhyqcCQmHed3ho94RPZ/IhH4+kEjVeZPtUZiMQJQPvfhM9cbA+60emPHRip4YwihhlO/w60jlvE7jef1f9/US9mpRNJ/6lC+R35Cja6L2iBjIt9UDgTK82V87j0nFpLGNb8H4T7/QvD2XsxsHQtXVeFY5k2jRuOIY5VNh3hxGa
         aws-region: us-east-2
     - uses: iterative/setup-dvc@v1
     - name: Pull from S3
