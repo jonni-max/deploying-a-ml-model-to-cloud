@@ -5,6 +5,7 @@
 
 pip install -r requirements_render.txt &&
 source ./aws_cred_export &&
-#dvc pull -r jps3
-dvc ls-url  s3://udacity-mldevops-project-3
+dvc pull -r jps3
 
+echo "DVC pulled data:"
+dvc ls -R --dvc-only ./data
