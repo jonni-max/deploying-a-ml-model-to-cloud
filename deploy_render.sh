@@ -6,7 +6,7 @@
 pip install -r requirements_render.txt &&
 source ./aws_cred_export &&
 #dvc pull -vv -r jps3 &&
-dev config -vv --list
+dvc config -vv --list
 
 echo "DVC pulled data:"
 dvc ls -R --dvc-only ./data
