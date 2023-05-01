@@ -6,4 +6,7 @@ fastapi==0.63.0
 gunicorn
 pydantic
 dvc
-
+dvc-data
+dvc-s3
+dvc-objects
+dvc-task
