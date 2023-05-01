@@ -14,6 +14,7 @@ from .ml.data import process_data
 from .ml.model import train_model, inference_encoded
 from .ml.model import compute_model_metrics
 
+# TODO Move these to a separate folder
 g_fn_model = 'data/rf_model.joblib'
 g_fn_encoder = 'data/encoder.joblib'
 g_fn_label_binarizer = 'data/label_binarizer.joblib'

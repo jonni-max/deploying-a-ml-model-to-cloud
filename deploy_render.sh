@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# Deployment on the render web server. This will be called on every push to github.
+# Build steps on the render web server. 
+# This will be called on every push to github.
 
 pip install -r requirements.txt &&
-dvc pull jps3
+aws_cred_export.sh &&
+dvc pull -r jps3
 
