@@ -1,8 +1,13 @@
 
+
+# Python artifacts
 __pycache__/
 
-# Custom EDA artefacts
+# Custom EDA artifacts
 summary.html
 .ipynb_checkpoints/
 
+# Experimentation
+sanitycheck.py
+sandbox.py
 

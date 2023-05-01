@@ -13,7 +13,6 @@ import pandas as pd
 from .ml.data import process_data
 from .ml.model import train_model, inference_encoded
 from .ml.model import compute_model_metrics
-from scipy.special.tests.test_dd import test_data
 
 # TODO Move these to a separate folder
 g_fn_model = 'data/rf_model.joblib'
@@ -68,7 +67,7 @@ def model_testing_overall(
         test_data):
     """
     Evaluate performance of the overall model.
-    
+
     Input
     -----
     model : sklearn.ensemble.RandomForestClassifier
@@ -79,12 +78,12 @@ def model_testing_overall(
         Label binarizer
     test_data : pandas.DataFrame
         Test data with column names
-        
+
     Returns
     -------
-    
+
     """
-    
+
     # Process the test data with the process_data function.
     X_test, y_test, _, _ = process_data(
         test_data, categorical_features=g_cat_features, label="salary",
@@ -93,16 +92,15 @@ def model_testing_overall(
 
     # Compute model predictions on the whole test data
     preds = inference_encoded(model, X_test)
-    
+
     prec, rec, fbet = compute_model_metrics(y_test, preds)
-    
+
     result_text = f"Model performance:\nprecision: {prec}, recall: {rec}, "\
         f"fbeta: {fbet}"
 
     # Print result to stdout
     print(result_text)
-    
-        
+
 
 def model_testing_slices(
         model,
@@ -222,7 +220,7 @@ def run_pipeline():
 
     # Train model
     model, enc, lb = model_training(train)
-    
+
     # Evaluate overall model performance
     model_testing_overall(model, enc, lb, test)
 
