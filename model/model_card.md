@@ -14,7 +14,7 @@ We trained the model with the census dataset of the UCI Machine Learning Reposit
 <https://archive.ics.uci.edu/ml/datasets/census+income>
 
 ## Evaluation Data
-We evaluated the model based on the same dataset as used for training.
+We used 20 % of the census dataset for testing, ie. evaluation of the model.
 
 ## Metrics
 We extracted model metrics, precision, recall and fbeta on sclices of male/female:
@@ -23,7 +23,7 @@ Male: precision: 0.7423510466988728, recall: 0.6150767178118746, fbeta: 0.672747
 Female: precision: 0.8113207547169812, recall: 0.6142857142857143, fbeta: 0.6991869918699187
 
 ## Ethical Considerations
-There are no ethical concerns.
+We observed a bias in the training data, since precision of the trained model varies significantly between male and female groups. 
 
 ## Caveats and Recommendations
 We do not guarantee for correctness of the model predictions.
