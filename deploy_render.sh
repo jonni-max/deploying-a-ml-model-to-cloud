@@ -4,6 +4,6 @@
 # This will be called on every push to github.
 
 pip install -r requirements.txt &&
-aws_cred_export.sh &&
+source ./aws_cred_export &&
 dvc pull -r jps3
 
